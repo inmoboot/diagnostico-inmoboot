@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Inmoboot</title>
+
+<style>
+:root{
+  --primary:#0F2B46;
+  --secondary:#1F4E79;
+  --accent:#F4B400;
+  --light:#F7F9FC;
+  --dark:#0A1A2B;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--light);
+  color:var(--dark);
+  line-height:1.6;
+}
+
+section{padding:80px 20px;}
+.container{max-width:1100px;margin:0 auto;}
+
+h1{font-size:2.5rem;margin-bottom:20px;}
+h2{font-size:1.8rem;margin-bottom:20px;}
+h3{margin-top:30px;margin-bottom:15px;}
+
+.hero{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  text-align:center;
+  padding:120px 20px;
+}
+
+.cta-button{
+  display:inline-block;
+  margin-top:30px;
+  padding:16px 40px;
+  background:var(--accent);
+  color:black;
+  font-weight:600;
+  text-decoration:none;
+  border-radius:6px;
+}
+
+.block-light{background:white;}
+.block-dark{background:var(--primary);color:white;}
+
+ul{padding-left:20px;}
+li{margin-bottom:10px;}
+
+.form-box{
+  background:white;
+  padding:40px;
+  border-radius:8px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+  margin-top:30px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  background:var(--accent);
+  border:none;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+button:hover{opacity:0.9;}
+
+.badge{
+  display:inline-block;
+  background:rgba(244,180,0,0.15);
+  color:var(--accent);
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:0.9rem;
+  margin-bottom:20px;
+}
+
+.footer-note{
+  text-align:center;
+  font-size:0.9rem;
+  opacity:0.7;
+  margin-top:30px;
+}
+
+@media(max-width:768px){
+  h1{font-size:2rem;}
+  h2{font-size:1.5rem;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<h1>¿Cuánto dinero está perdiendo tu inmobiliaria por no tener un sistema de seguimiento estructurado?</h1>
+<p>Descúbrelo en menos de 60 segundos con este diagnóstico gratuito diseñado específicamente para inmobiliarias de compraventa.</p>
+<p><strong>👉 Recibe un informe personalizado en tu email.</strong></p>
+<a href="#formulario" class="cta-button">Calcular ahora 🚀</a>
+</div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="block-light">
+<div class="container">
+<h2>📉 El problema no es generar más leads</h2>
+<ul>
+<li>Seguimientos que se hacen tarde</li>
+<li>Leads que se enfrían</li>
+<li>Oportunidades olvidadas</li>
+<li>Falta de sistema estructurado</li>
+</ul>
+<p><strong>Esto impacta directamente en tu facturación mensual.</strong></p>
+</div>
+</section>
+
+<!-- FORMULARIO -->
+<section class="block-light" id="formulario">
+<div class="container">
+
+<div class="badge">Diagnóstico gratuito para inmobiliarias</div>
+<h2>Completa los datos y recibe tu informe personalizado</h2>
+
+<div class="form-box">
+
+<form name="diagnostico-inmoboot"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/gracias.html">
+
+<input type="hidden" name="form-name" value="diagnostico-inmoboot">
+
+<p style="display:none;">
+<label>No rellenar si eres humano:
+<input name="bot-field">
+</label>
+</p>
+
+<h3>📝 SECCIÓN 1 – Datos básicos</h3>
+
+<input type="text" name="nombre" placeholder="1️⃣ Nombre" required>
+<input type="email" name="email" placeholder="2️⃣ Email (obligatorio para recibir informe)" required>
+<input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required>
+
+<h3>🧮 SECCIÓN 2 – Datos de negocio</h3>
+
+<input type="number" name="leads_mensuales" placeholder="4️⃣ ¿Cuántos leads nuevos recibes al mes?" required>
+<input type="number" name="seguimientos_por_lead" placeholder="5️⃣ ¿Cuántos seguimientos haces por lead?" required>
+<input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ ¿Cuántos minutos tardas en cada seguimiento?" required>
+<input type="number" name="ventas_mensuales" placeholder="7️⃣ ¿Cuántas ventas cierras al mes?" required>
+<input type="number" name="comision_media" placeholder="8️⃣ Comisión media por venta (€)" required>
+
+<button type="submit">Recibir diagnóstico 📊</button>
+
+</form>
+
+</div>
+</div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="block-dark">
+<div class="container">
+<h2>📄 ¿Qué recibirás?</h2>
+<ul>
+<li>✔ Horas reales invertidas en seguimiento</li>
+<li>✔ Coste operativo mensual</li>
+<li>✔ Impacto económico potencial</li>
+<li>✔ Diagnóstico estratégico personalizado</li>
+</ul>
+</div>
+</section>
+
+<!-- ESCARCEDAD -->
+<section class="block-light">
+<div class="container">
+<h2>⏳ Plazas limitadas</h2>
+<p>Solo analizamos un número reducido de inmobiliarias cada mes.</p>
+<a href="#formulario" class="cta-button">Quiero mi diagnóstico 📈</a>
+
+<div class="footer-note">
+Inmoboot © 2026 | Automatización estratégica para inmobiliarias
+</div>
+</div>
+</section>
+
+</body>
+</html>
