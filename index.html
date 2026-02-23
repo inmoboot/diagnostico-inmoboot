@@ -107,6 +107,26 @@ button:hover{opacity:0.9;}
 </style>
 </head>
 
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbzGxS6fncLIor7aWbmvtVn1vOa-V7JVPZ8_GV8caH2RIlLgbNObvFxnYKocn-2dCMVYmQ/exec";
+
+document.getElementById("diagnosticoForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+    window.location.href = "/gracias.html";
+  })
+  .catch(error => alert("Error al enviar el formulario"));
+});
+</script>  
 <body>
 
 <!-- HERO -->
@@ -142,11 +162,25 @@ button:hover{opacity:0.9;}
 
 <div class="form-box">
 
-<form name="diagnostico-inmoboot"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/gracias.html">
+<form id="diagnosticoForm">
+
+<h3>📝 SECCIÓN 1 – Datos básicos</h3>
+
+<input type="text" name="nombre" placeholder="1️⃣ Nombre" required>
+<input type="email" name="email" placeholder="2️⃣ Email (obligatorio)" required>
+<input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required>
+
+<h3>🧮 SECCIÓN 2 – Datos de negocio</h3>
+
+<input type="number" name="leads_mensuales" placeholder="4️⃣ Leads al mes" required>
+<input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos por lead" required>
+<input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos por seguimiento" required>
+<input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas al mes" required>
+<input type="number" name="comision_media" placeholder="8️⃣ Comisión media (€)" required>
+
+<button type="submit">Recibir diagnóstico 📊</button>
+
+</form>
 
 <input type="hidden" name="form-name" value="diagnostico-inmoboot">
 
@@ -205,4 +239,5 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 </section>
 
 </body>
+
 </html>
