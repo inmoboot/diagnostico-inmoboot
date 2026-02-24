@@ -110,22 +110,36 @@ button:hover{opacity:0.9;}
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbxWcCyBDK7hp2LMhhiR9RqPXIFSIAGDQV0gc4jmYz9_ftmjL-c3wK62XddSfhgmXKxCwg/exec";
 
-document.getElementById("formulario").addEventListener("submit", function(e){
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", function() {
 
-  const formData = new FormData(this);
-  const data = Object.fromEntries(formData.entries());
+  const form = document.getElementById("miFormulario");
 
-  fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-  .then(response => response.json())
-  .then(data => {
-    window.location.href = "/gracias.html";
-  })
-  .catch(error => alert("Error al enviar el formulario"));
+  if (!form) {
+    console.error("Formulario no encontrado");
+    return;
+  }
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "success") {
+        window.location.href = "gracias.html";
+      } else {
+        alert("Error al enviar");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  });
 });
+  
 </script>  
 <body>
 
@@ -162,7 +176,7 @@ document.getElementById("formulario").addEventListener("submit", function(e){
 
 <div class="form-box">
 
-<form id="formulario">
+<form id="miFormulario">
 
 <h3>📝 SECCIÓN 1 – Datos básicos</h3>
 
@@ -226,6 +240,7 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 </body>
 
 </html>
+
 
 
 
