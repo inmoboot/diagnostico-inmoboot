@@ -217,41 +217,29 @@ button:hover{opacity:0.9;}
 </head>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwIvgbjv0NrbHo34XY45YWttazHxA66RhwyA1sQ_HVBdNf1PAuMOJb4WJXplGWhMKvzjA/exec";
+document.getElementById("formDiagnostico").addEventListener("submit", function(e) {
+  e.preventDefault();
 
-document.addEventListener("DOMContentLoaded", function() {
+  const form = e.target;
+  const formData = new FormData(form);
 
-  const form = document.getElementById("miFormulario");
-
-  if (!form) {
-    console.error("Formulario no encontrado");
-    return;
-  }
-
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    fetch(scriptURL, {
-      method: "POST",
-      body: new FormData(form)
-    })
-   .then(response => response.text())
-.then(data => {
-  console.log("RESPUESTA DEL SCRIPT:", data);
-})
-    .then(data => {
-      if (data.status === "success") {
-        window.location.href = "gracias.html";
-      } else {
-        alert("Error al enviar");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+  fetch("https://script.google.com/macros/s/AKfycbw2stNxIzzKC6nW05O87LSUTOHiCUozR9LJFo6Q-GG8Ko7-d_DVq4gK-nuGSWqv4GyUdw/exec", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      window.location.href = "gracias.html";
+    } else {
+      alert("Error: " + data.message);
+    }
+  })
+  .catch(error => {
+    console.error(error);
+    alert("Error de conexión");
   });
 });
-  
 </script>  
   
 <body>
@@ -447,6 +435,7 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 </body>
 
 </html>
+
 
 
 
