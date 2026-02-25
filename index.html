@@ -235,7 +235,10 @@ document.addEventListener("DOMContentLoaded", function() {
       method: "POST",
       body: new FormData(form)
     })
-    .then(response => response.json())
+   .then(response => response.text())
+.then(data => {
+  console.log("RESPUESTA DEL SCRIPT:", data);
+})
     .then(data => {
       if (data.status === "success") {
         window.location.href = "gracias.html";
@@ -444,6 +447,7 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 </body>
 
 </html>
+
 
 
 
