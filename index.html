@@ -236,7 +236,9 @@ display:inline-block;
 
 <div class="form-box">
 
-<form id="miFormulario">
+<form 
+action="https://script.google.com/macros/s/AKfycbzlzi2r8aDupdW8GkNLNcoT7XmyjfXMV3-xmwTmy8uOpi4KCAWFv2OVQIW0OrO8CKLtDw/exec"
+method="POST">
 
 <h3>📝 SECCIÓN 1 – Datos básicos</h3>
 
@@ -326,15 +328,12 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 
 <script>
 
-document.getElementById("miFormulario").addEventListener("submit", function(e){
-
-e.preventDefault();
 
 const form = e.target;
 
 const formData = new FormData(form);
 
-fetch("https://script.google.com/macros/s/AKfycbzsa9kJIFF5mStN-c9jJh1LhkXT0UJbGcyjCoCQzjIhm5bp-FOdu6rrLX2OW98q05KWCg/exec",{
+fetch("https://script.google.com/macros/s/AKfycbzlzi2r8aDupdW8GkNLNcoT7XmyjfXMV3-xmwTmy8uOpi4KCAWFv2OVQIW0OrO8CKLtDw/exec",{
 method:"POST",
 body:formData
 })
@@ -360,4 +359,5 @@ alert("Error enviando el formulario");
 </body>
 
 </html>
+
 
