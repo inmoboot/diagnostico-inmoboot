@@ -227,56 +227,81 @@ display:inline-block;
 <!-- FORMULARIO -->
 
 <section class="block-light" id="formulario">
-
 <div class="container">
-
 <div class="badge">Diagnóstico gratuito para inmobiliarias</div>
-
 <h2>Completa los datos y recibe tu informe personalizado</h2>
 
 <div class="form-box">
 
-<form 
-action="https://script.google.com/macros/s/AKfycbz78K4KBnjLN2QMDuUHAUPXHXCPJr1prVTJknZ8tbk9T_x48DJxbaINV4Csvjs8H3xcdg/exec"
-method="POST"
-onsubmit="setTimeout(function(){ window.location.href='https://inmoboot.github.io/diagnostico-inmoboot/gracias.html'; }, 1000);"
->
+<form id="diagnosticoForm">
 
-<h3>📝 SECCIÓN 1 – Datos básicos</h3>
+  <!-- FASE 1 -->
+  <div id="fase1">
+    <h3>📝 SECCIÓN 1 – Datos básicos</h3>
+    <input type="text" name="nombre" placeholder="1️⃣ Nombre" required>
+    <input type="email" name="email" placeholder="2️⃣ Email (obligatorio)" required>
+    <input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required>
+    <button type="button" id="siguiente1">Siguiente ➡️</button>
+  </div>
 
-<input type="text" name="nombre" placeholder="1️⃣ Nombre" required>
+  <!-- FASE 2 -->
+  <div id="fase2" style="display:none;">
+    <h3>🧮 SECCIÓN 2 – Datos de negocio</h3>
+    <input type="number" name="leads_mensuales" placeholder="4️⃣ Leads al mes" required>
+    <input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos por lead" required>
+    <input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos por seguimiento" required>
+    <input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas cerradas al mes (aprox.)" required>
+    <input type="number" name="comision_media" placeholder="8️⃣ Comisión media (€)" required>
 
-<input type="email" name="email" placeholder="2️⃣ Email (obligatorio)" required>
+    <!-- Honeypot antispam -->
+    <input type="text" name="website" style="display:none">
 
-<input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required>
-
-<h3>🧮 SECCIÓN 2 – Datos de negocio</h3>
-
-<input type="number" name="leads_mensuales" placeholder="4️⃣ Leads al mes" required>
-
-<input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos por lead" required>
-
-<input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos por seguimiento" required>
-
-<input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas cerradas al mes (aprox.)" required>
-
-<input type="number" name="comision_media" placeholder="8️⃣ Comisión media (€)" required>
-
-<!-- Honeypot antispam -->
-
-<input type="text" name="website" style="display:none">
-
-<button type="submit">Recibir diagnóstico 📊</button>
-
-<p class="micro-trust">🔒 Tus datos solo se usarán para enviarte el diagnóstico. Sin spam.</p>
+    <button type="submit">Recibir diagnóstico 📊</button>
+  </div>
 
 </form>
 
-</div>
+<p class="micro-trust">🔒 Tus datos solo se usarán para enviarte el diagnóstico. Sin spam.</p>
 
 </div>
-
+</div>
 </section>
+
+<script>
+// Mostrar Fase 2 al hacer clic en "Siguiente"
+document.getElementById('siguiente1').addEventListener('click', function() {
+  const nombre = document.querySelector('input[name="nombre"]').value;
+  const email = document.querySelector('input[name="email"]').value;
+  const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value;
+
+  if(nombre && email && inmobiliaria){
+    document.getElementById('fase1').style.display = 'none';
+    document.getElementById('fase2').style.display = 'block';
+  } else {
+    alert('Por favor, completa todos los campos.');
+  }
+});
+
+// Envío del formulario con fetch a Google Script
+document.getElementById('diagnosticoForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const formData = new FormData(this);
+
+  fetch("https://script.google.com/macros/s/AKfycbz78K4KBnjLN2QMDuUHAUPXHXCPJr1prVTJknZ8tbk9T_x48DJxbaINV4Csvjs8H3xcdg/exec",{
+    method:"POST",
+    body:formData
+  })
+  .then(response => response.text())
+  .then(data => {
+    // Redirigir a página de gracias
+    window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
+  })
+  .catch(error => {
+    alert("Error enviando el formulario");
+  });
+});
+</script>
+
 
 <!-- BENEFICIOS -->
 
@@ -361,6 +386,7 @@ alert("Error enviando el formulario");
 </body>
 
 </html>
+
 
 
 
