@@ -287,7 +287,7 @@ document.getElementById('diagnosticoForm').addEventListener('submit', function(e
   e.preventDefault();
   const formData = new FormData(this);
 
-  fetch("https://script.google.com/macros/s/AKfycbxXsFWzWq7EkwM-TIQUsxXvORzhaCdFJUGuoCpqCVlPmBtZ2SasZ_p3RacYb0xWhr-mOw/exec",{
+  fetch("https://script.google.com/macros/s/AKfycbxKnU6Z5EL3uFoitQ1rEkcDPbzh3GRbP9YaRuCnQ9IdN1ky900APR1pd7XLuL-KTRPHEA/exec",{
     method:"POST",
     body:formData
   })
@@ -360,7 +360,7 @@ const form = e.target;
 
 const formData = new FormData(form);
 
-fetch("https://script.google.com/macros/s/AKfycbxXsFWzWq7EkwM-TIQUsxXvORzhaCdFJUGuoCpqCVlPmBtZ2SasZ_p3RacYb0xWhr-mOw/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxKnU6Z5EL3uFoitQ1rEkcDPbzh3GRbP9YaRuCnQ9IdN1ky900APR1pd7XLuL-KTRPHEA/exec",{
 method:"POST",
 body:formData
 })
@@ -386,6 +386,7 @@ alert("Error enviando el formulario");
 </body>
 
 </html>
+
 
 
 
