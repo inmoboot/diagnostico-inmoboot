@@ -287,19 +287,21 @@ document.getElementById('diagnosticoForm').addEventListener('submit', function(e
   e.preventDefault();
   const formData = new FormData(this);
 
-  fetch("https://script.google.com/macros/s/AKfycbxKnU6Z5EL3uFoitQ1rEkcDPbzh3GRbP9YaRuCnQ9IdN1ky900APR1pd7XLuL-KTRPHEA/exec",{
-    method:"POST",
-    body:formData
-  })
+
+  <iframe name="hidden_iframe" style="display:none;" onload="redireccion()"></iframe>
   .then(response => response.text())
   .then(data => {
     // Redirigir a página de gracias
+  <script>
+
+var enviado = false;
+
+function redireccion(){
+  if(enviado){
     window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
-  })
-  .catch(error => {
-    alert("Error enviando el formulario");
-  });
-});
+  }
+}
+
 </script>
 
 
@@ -360,7 +362,7 @@ const form = e.target;
 
 const formData = new FormData(form);
 
-fetch("https://script.google.com/macros/s/AKfycbxKnU6Z5EL3uFoitQ1rEkcDPbzh3GRbP9YaRuCnQ9IdN1ky900APR1pd7XLuL-KTRPHEA/exec",{
+fetch("https://script.google.com/macros/s/AKfycbzKg6YywkxSsbPJBLyUWxosOTX9JemOEEIKAcIzpReoXbfApvVVga4jt4_bTJMcmg9QWQ/exec",{
 method:"POST",
 body:formData
 })
@@ -386,6 +388,7 @@ alert("Error enviando el formulario");
 </body>
 
 </html>
+
 
 
 
