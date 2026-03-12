@@ -292,9 +292,11 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 <div class="sticky-cta">
 <a href="#formulario">Calcular diagnóstico 🚀</a>
 </div>
-
-
 <script>
+// REDIRECCIÓN tras enviar (no hace fetch, iframe hace el POST)
+function redireccion(){
+  window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
+}
 
 // BOTÓN SIGUIENTE
 document.getElementById('siguiente1').addEventListener('click', function(){
@@ -311,10 +313,6 @@ if(nombre && email && inmobiliaria){
   alert('Por favor, completa todos los campos.');
 });
 
-// REDIRECCIÓN tras enviar (no hace fetch, iframe hace el POST)
-function redireccion(){
-  window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
-}
 
 });
 
@@ -323,6 +321,7 @@ function redireccion(){
 
 </body>
 </html>
+
 
 
 
