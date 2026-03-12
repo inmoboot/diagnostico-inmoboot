@@ -199,7 +199,10 @@ display:inline-block;
 
 <div class="form-box">
 
-<form id="diagnosticoForm">
+<!-- FORMULARIO CON IFRAME OCULTO -->
+<iframe name="hidden_iframe" style="display:none;" onload="redireccion()"></iframe>
+
+<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbwGwFhL8MUtNtwf4dzMjJPPCPDOPxTC5XywkX355HWBK06SXcT497SLxExUZCug2jFu9g/exec" target="hidden_iframe">
 
 <!-- FASE 1 -->
 <div id="fase1">
@@ -301,67 +304,26 @@ const email = document.querySelector('input[name="email"]').value;
 const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value;
 
 if(nombre && email && inmobiliaria){
-
-const formData = new FormData();
-formData.append("nombre", nombre);
-formData.append("email", email);
-formData.append("inmobiliaria", inmobiliaria);
-formData.append("fase", "1");
-
-fetch("https://script.google.com/macros/s/AKfycbwGwFhL8MUtNtwf4dzMjJPPCPDOPxTC5XywkX355HWBK06SXcT497SLxExUZCug2jFu9g/exec",{
-method:"POST",
-body:formData
-})
-.then(response => response.text())
-.then(data => {
-
-document.getElementById('fase1').style.display='none';
-document.getElementById('fase2').style.display='block';
-
-})
-.catch(error=>{
-console.error(error);
+  // Pasar a FASE 2
+  document.getElementById('fase1').style.display='none';
+  document.getElementById('fase2').style.display='block';
+} else {
+  alert('Por favor, completa todos los campos.');
 });
 
-}else{
-
-alert('Por favor, completa todos los campos.');
-
+// REDIRECCIÓN tras enviar (no hace fetch, iframe hace el POST)
+function redireccion(){
+  window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
 }
 
 });
 
-// ENVÍO FORMULARIO
-document.getElementById('diagnosticoForm').addEventListener('submit',function(e){
-
-e.preventDefault();
-
-const formData = new FormData(this);
-
-fetch("https://script.google.com/macros/s/AKfycbxxP_UylEX6egdMefMYCB_5u16PLOr7Z-O3XRJQ3edLGv5ltXyj1hVnxGx6uFio0i4vCA/exec",{
-
-method:"POST",
-body:formData
-
-})
-
-.then(response=>response.text())
-
-.then(data=>{
-window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
-})
-
-.catch(error=>{
-alert("Error enviando el formulario");
-console.error(error);
-});
-
-});
 
 </script>
 
 </body>
 </html>
+
 
 
 
