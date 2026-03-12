@@ -72,7 +72,7 @@ h2{font-size:1.5rem;}
 <!-- FORMULARIO CON IFRAME OCULTO -->
 <iframe name="hidden_iframe" style="display:none;" onload="redireccion()"></iframe>
 
-<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbwGwFhL8MUtNtwf4dzMjJPPCPDOPxTC5XywkX355HWBK06SXcT497SLxExUZCug2jFu9g/exec" target="hidden_iframe">
+<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbzIk5x5iZwRAE9uB6_sjY5Okk3yFFxdlnTo36AeAhCx4d8l29hPhqd0CSmOBvm1-BroVg/exec" target="hidden_iframe">
 
 <!-- FASE 1 -->
 <div id="fase1">
@@ -147,8 +147,32 @@ document.getElementById('siguiente1').addEventListener('click', function(){
   const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value;
 
   if(nombre && email && inmobiliaria){
+
+    // ---------- ENVIO DEL PRIMER EMAIL ----------
+    const subject = encodeURIComponent("Tu diagnóstico gratuito está listo, " + nombre);
+    const body = encodeURIComponent(`
+Hola ${nombre}, tu diagnóstico rápido está en camino ✅
+  Mientras tanto, descarga esta guía gratuita:
+
+  3 errores que hacen perder dinero a las inmobiliarias
+
+    ✔ Por qué la mayoría de inmobiliarias pierde leads
+    ✔ Cómo mejorar el seguimiento
+    ✔ Qué procesos se pueden automatizar
+  📥 Descarga aquí la guía:
+  👉 https://drive.google.com/file/d/1fEFZN0RHK84A4vBZQsnI4Bq04gbLCjyv/view?usp=drive_link
+
+Completa tus datos y recibe el informe completo 📊:
+https://inmoboot.github.io/diagnostico-inmoboot/
+    `);
+
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    // ---------- FIN EMAIL ----------
+
+    // Mostrar fase 2
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
+
   } else {
     alert('Por favor, completa todos los campos.');
   }
@@ -157,6 +181,7 @@ document.getElementById('siguiente1').addEventListener('click', function(){
 
 </body>
 </html>
+
 
 
 
