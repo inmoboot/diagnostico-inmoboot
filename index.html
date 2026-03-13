@@ -70,9 +70,7 @@ h2{font-size:1.5rem;}
 <div class="form-box">
 
 <!-- FORMULARIO CON IFRAME OCULTO -->
-<iframe name="hidden_iframe" style="display:none;" onload="redireccion()"></iframe>
-
-<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec" target="hidden_iframe">
+<iframe name="hidden_iframe" style="display:none;" onload="redireccion(https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec)"></iframe>
 
 <!-- FASE 1 -->
 <div id="fase1">
@@ -141,32 +139,41 @@ function redireccion(){
 }
 
 // BOTÓN SIGUIENTE (solo cambia de fase)
+// función para redirigir después del envío final
+function redireccion(){
+  window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
+}
+
+// botón siguiente
 document.getElementById('siguiente1').addEventListener('click', function(){
 
   const nombre = document.querySelector('input[name="nombre"]').value.trim();
   const email = document.querySelector('input[name="email"]').value.trim();
-  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
 
   if(nombre && email && inmobiliaria){
 
-    // Enviar datos de fase 1 al Apps Script
-    fetch("https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec",{
+    // enviar fase 1 al script
+    const form = document.getElementById("diagnosticoForm");
+
+    const formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("email", email);
+    formData.append("inmobiliaria", inmobiliaria);
+
+    fetch(form.action,{
       method:"POST",
-      body:new URLSearchParams({
-        nombre:nombre,
-        email:email,
-        inmobiliaria:inmobiliaria
-      })
+      body:formData,
+      mode:"no-cors"
     });
 
-    // Mostrar fase 2
+    // mostrar fase 2
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
 
-    document.getElementById('fase2').scrollIntoView({
-      behavior:"smooth"
-    });
+  }
+
+});
 
   } else {
 
