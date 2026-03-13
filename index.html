@@ -72,7 +72,7 @@ h2{font-size:1.5rem;}
 <!-- FORMULARIO CON IFRAME OCULTO -->
 <iframe name="hidden_iframe" style="display:none;" onload="redireccion()"></iframe>
 
-<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbzIk5x5iZwRAE9uB6_sjY5Okk3yFFxdlnTo36AeAhCx4d8l29hPhqd0CSmOBvm1-BroVg/exec" target="hidden_iframe">
+<form id="diagnosticoForm" method="POST" action="https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec" target="hidden_iframe">
 
 <!-- FASE 1 -->
 <div id="fase1">
@@ -135,47 +135,45 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 </div>
 
 <script>
-// Función global para redireccionar tras enviar
+// Función global para redireccionar tras enviar el formulario completo
 function redireccion(){
   window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
 }
 
-// BOTÓN SIGUIENTE
+// BOTÓN SIGUIENTE (solo cambia de fase)
 document.getElementById('siguiente1').addEventListener('click', function(){
-  const nombre = document.querySelector('input[name="nombre"]').value;
-  const email = document.querySelector('input[name="email"]').value;
-  const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value;
+
+  const nombre = document.querySelector('input[name="nombre"]').value.trim();
+  const email = document.querySelector('input[name="email"]').value.trim();
+  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
 
   if(nombre && email && inmobiliaria){
 
-    // ---------- ENVIO DEL PRIMER EMAIL ----------
-    const subject = encodeURIComponent("Tu diagnóstico gratuito está listo, " + nombre);
-    const body = encodeURIComponent(`
-Hola ${nombre}, tu diagnóstico rápido está en camino ✅
-  Mientras tanto, descarga esta guía gratuita:
-
-  3 errores que hacen perder dinero a las inmobiliarias
-
-    ✔ Por qué la mayoría de inmobiliarias pierde leads
-    ✔ Cómo mejorar el seguimiento
-    ✔ Qué procesos se pueden automatizar
-  📥 Descarga aquí la guía:
-  👉 https://drive.google.com/file/d/1fEFZN0RHK84A4vBZQsnI4Bq04gbLCjyv/view?usp=drive_link
-
-Completa tus datos y recibe el informe completo 📊:
-https://inmoboot.github.io/diagnostico-inmoboot/
-    `);
-
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-    // ---------- FIN EMAIL ----------
+    // Enviar datos de fase 1 al Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec",{
+      method:"POST",
+      body:new URLSearchParams({
+        nombre:nombre,
+        email:email,
+        inmobiliaria:inmobiliaria
+      })
+    });
 
     // Mostrar fase 2
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
 
+    document.getElementById('fase2').scrollIntoView({
+      behavior:"smooth"
+    });
+
   } else {
+
     alert('Por favor, completa todos los campos.');
+
   }
+
 });
 </script>
 
