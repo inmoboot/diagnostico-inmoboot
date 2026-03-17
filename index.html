@@ -146,7 +146,7 @@ document.getElementById('siguiente1').addEventListener('click', function(){
   if(nombre && email && inmobiliaria){
 
     // marcar como fase 1
-    document.getElementById('faseInput').value = "fase1";
+    document.getElementById('fase').value = "fase1";
 
     // enviar al script (SIN REDIRIGIR)
     document.getElementById('diagnosticoForm').submit();
@@ -165,7 +165,7 @@ document.getElementById('siguiente1').addEventListener('click', function(){
 
   document.getElementById('diagnosticoForm').addEventListener('submit', function(){
 
-  document.getElementById('faseInput').value = "fase2";
+  document.getElementById('fase').value = "fase2";
 
 });
 
