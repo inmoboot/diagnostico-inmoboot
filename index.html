@@ -70,9 +70,10 @@ h2{font-size:1.5rem;}
 <form id="diagnosticoForm"
 action="https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec"
 method="POST"
-target="hidden_iframe">
+target="hidden_iframe"
+input type="hidden" name="fase" id="faseInput" value="">
 
-<iframe name="hidden_iframe" style="display:none;" onload="redireccion(https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec)"></iframe>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <div id="fase1">
 <h3>📝 SECCIÓN 1 – Datos básicos</h3>
@@ -144,12 +145,13 @@ document.getElementById('siguiente1').addEventListener('click', function(){
 
   if(nombre && email && inmobiliaria){
 
-    fetch("https://script.google.com/macros/s/AKfycbwvupnQynOa8-Tst5zziH2KsX_gkjoqBCs1nAtzblpQE1eaoXrvccqvjI_AkbFSQbMlNA/exec", {
-  method: "POST",
-  body: new URLSearchParams({nombre,email,inmobiliaria,fase:"fase1"}),
-  mode:"no-cors"
-});
+    // marcar como fase 1
+    document.getElementById('faseInput').value = "fase1";
 
+    // enviar al script (SIN REDIRIGIR)
+    document.getElementById('diagnosticoForm').submit();
+
+    // mostrar fase 2
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
 
@@ -158,6 +160,12 @@ document.getElementById('siguiente1').addEventListener('click', function(){
     alert('Por favor, completa todos los campos.');
 
   }
+
+});
+
+  document.getElementById('diagnosticoForm').addEventListener('submit', function(){
+
+  document.getElementById('faseInput').value = "fase2";
 
 });
 
