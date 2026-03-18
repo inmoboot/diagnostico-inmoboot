@@ -68,10 +68,11 @@ h2{font-size:1.5rem;}
 <div class="form-box">
 
 <form id="diagnosticoForm"
-input type="hidden" name="fase" id="fase"
 action="https://script.google.com/macros/s/AKfycbzLF7a4XZtVv2QfrskW3OcPIgcL-2Sw57EG82CySXIP1g-nqJnYZDTxZrwAr7r-cePeiw/exec"
 method="POST"
 target="hidden_iframe">
+
+<input type="hidden" name="fase" id="fase">
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -133,49 +134,67 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 
 <script>
 
+// redirección tras envío final
 function redireccion(){
   window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
 }
 
 document.addEventListener("DOMContentLoaded", function(){
 
-  document.getElementById('siguiente1').addEventListener('click', function(){
+  const btnSiguiente = document.getElementById('siguiente1');
+  const form = document.getElementById('diagnosticoForm');
+  const faseInput = document.getElementById('fase');
 
+  // =============================
+  // BOTÓN SIGUIENTE (FASE 1)
+  // =============================
 
-  const nombre = document.querySelector('input[name="nombre"]').value.trim();
-  const email = document.querySelector('input[name="email"]').value.trim();
-  const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
+  btnSiguiente.addEventListener('click', function(){
 
-  if(nombre && email && inmobiliaria){
+    const nombre = document.querySelector('input[name="nombre"]').value.trim();
+    const email = document.querySelector('input[name="email"]').value.trim();
+    const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
 
-    // marcar como fase 1
-    const faseInput = document.getElementById('fase');
+    if(nombre && email && inmobiliaria){
 
-if (faseInput) {
-  faseInput.value = "fase1";
-}
+      // marcar fase 1
+      if(faseInput){
+        faseInput.value = "fase1";
+      }
 
-    // enviar al script (SIN REDIRIGIR)
-    document.getElementById('diagnosticoForm').submit();
+      // enviar datos fase 1
+      form.submit();
 
-    // mostrar fase 2
-    document.getElementById('fase1').style.display='none';
-    document.getElementById('fase2').style.display='block';
+      // cambiar a fase 2
+      document.getElementById('fase1').style.display='none';
+      document.getElementById('fase2').style.display='block';
 
-  } else {
+    } else {
+      alert('Por favor, completa todos los campos.');
+    }
 
-    alert('Por favor, completa todos los campos.');
+  });
 
-  }
+  // =============================
+  // ENVÍO FINAL (FASE 2)
+  // =============================
+
+  form.addEventListener('submit', function(){
+
+    if(faseInput){
+      faseInput.value = "fase2";
+    }
+
+    // redirección tras enviar (delay para asegurar envío)
+    setTimeout(function(){
+      redireccion();
+    }, 1500);
+
+    console.log("fase:", faseInput.value);
+
+  });
 
 });
-
-  document.getElementById('diagnosticoForm').addEventListener('submit', function(){
-
-  document.getElementById('fase').value = "fase2";
-
-});
-
 </script>
 
 </body>
