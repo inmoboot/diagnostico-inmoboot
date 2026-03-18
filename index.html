@@ -137,7 +137,10 @@ function redireccion(){
   window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
 }
 
-document.getElementById('siguiente1').addEventListener('click', function(){
+document.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById('siguiente1').addEventListener('click', function(){
+
 
   const nombre = document.querySelector('input[name="nombre"]').value.trim();
   const email = document.querySelector('input[name="email"]').value.trim();
@@ -150,9 +153,7 @@ document.getElementById('siguiente1').addEventListener('click', function(){
 
 if (faseInput) {
   faseInput.value = "fase1";
-} else {
-  console.error("No existe el input fase");
-};
+}
 
     // enviar al script (SIN REDIRIGIR)
     document.getElementById('diagnosticoForm').submit();
