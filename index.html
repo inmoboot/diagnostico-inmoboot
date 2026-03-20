@@ -68,7 +68,7 @@ h2{font-size:1.5rem;}
 <div class="form-box">
 
 <form id="diagnosticoForm"
-action="https://script.google.com/macros/s/AKfycbyWyHZOpbjWw8XesapkdlSmXCXTCPS2oDyC2VdfXAftBDK1V8orhJZ7_SfCGoVakRa57A/exec"
+action="https://script.google.com/macros/s/AKfycbzB1tEjRitkertwNOoA6I578ZpABxx5VhO92_UUdRlh2n5f2xhD5HJZviPKDQXyGhkIYw/exec"
 method="POST"
 target="hidden_iframe">
 
@@ -158,40 +158,61 @@ document.addEventListener("DOMContentLoaded", function(){
     if(nombre && email && inmobiliaria){
 
       // marcar fase 1
-      if(faseInput){
-        faseInput.value = "fase1";
-      }
+      fetch(form.action, {
+  method: "POST",
+  body: new FormData(form)
+})
+.then(res => res.json())
+.then(data => {
 
-      // enviar datos fase 1
-      form.submit();
+  if(data.leadId){
+    leadId = data.leadId; // 🔥 guardamos ID
+  }
 
-      // cambiar a fase 2
-      document.getElementById('fase1').style.display='none';
-      document.getElementById('fase2').style.display='block';
+  // cambiar a fase 2
+  document.getElementById('fase1').style.display='none';
+  document.getElementById('fase2').style.display='block';
 
-    } else {
-      alert('Por favor, completa todos los campos.');
-    }
-
-  });
+})
+.catch(err => {
+  console.error(err);
+  alert("Error al enviar fase 1");
+});
 
   // =============================
   // ENVÍO FINAL (FASE 2)
   // =============================
 
-  form.addEventListener('submit', function(){
+  form.addEventListener('submit', function(e){
 
-    if(faseInput){
-      faseInput.value = "fase2";
-    }
+  e.preventDefault(); // 🔥 importante
 
-    // redirección tras enviar (delay para asegurar envío)
-    setTimeout(function(){
-      redireccion();
-    }, 1500);
+  if(faseInput){
+    faseInput.value = "fase2";
+  }
+
+  const formData = new FormData(form);
+
+  // 🔥 añadimos el leadId
+  formData.append("leadId", leadId);
+
+  fetch(form.action, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
 
     console.log("fase:", faseInput.value);
 
+    setTimeout(function(){
+      redireccion();
+    }, 1000);
+
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Error al enviar fase 2");
   });
 
 });
