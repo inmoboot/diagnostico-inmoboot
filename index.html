@@ -134,7 +134,6 @@ Inmoboot © 2026 | Automatización estratégica para inmobiliarias
 
 <script>
 
-// redirección tras envío final
 function redireccion(){
   window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
 }
@@ -145,8 +144,10 @@ document.addEventListener("DOMContentLoaded", function(){
   const form = document.getElementById('diagnosticoForm');
   const faseInput = document.getElementById('fase');
 
+  let leadId = null; // 🔥 IMPORTANTE
+
   // =============================
-  // BOTÓN SIGUIENTE (FASE 1)
+  // FASE 1
   // =============================
 
   btnSiguiente.addEventListener('click', function(){
@@ -157,62 +158,67 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(nombre && email && inmobiliaria){
 
-      // marcar fase 1
+      faseInput.value = "fase1"; // 🔥 CLAVE
+
+      const formData = new FormData(form);
+
       fetch(form.action, {
-  method: "POST",
-  body: new FormData(form)
-})
-.then(res => res.json())
-.then(data => {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
 
-  if(data.leadId){
-    leadId = data.leadId; // 🔥 guardamos ID
-  }
+        if(data.leadId){
+          leadId = data.leadId; // 🔥 guardamos
+        }
 
-  // cambiar a fase 2
-  document.getElementById('fase1').style.display='none';
-  document.getElementById('fase2').style.display='block';
+        document.getElementById('fase1').style.display='none';
+        document.getElementById('fase2').style.display='block';
 
-})
-.catch(err => {
-  console.error(err);
-  alert("Error al enviar fase 1");
-});
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error al enviar fase 1");
+      });
+
+    } else {
+      alert('Por favor, completa todos los campos.');
+    }
+
+  });
 
   // =============================
-  // ENVÍO FINAL (FASE 2)
+  // FASE 2
   // =============================
 
   form.addEventListener('submit', function(e){
 
-  e.preventDefault(); // 🔥 importante
+    e.preventDefault();
 
-  if(faseInput){
     faseInput.value = "fase2";
-  }
 
-  const formData = new FormData(form);
+    const formData = new FormData(form);
 
-  // 🔥 añadimos el leadId
-  formData.append("leadId", leadId);
+    formData.append("leadId", leadId); // 🔥 CLAVE
 
-  fetch(form.action, {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
+    fetch(form.action, {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
 
-    console.log("fase:", faseInput.value);
+      setTimeout(function(){
+        redireccion();
+      }, 1000);
 
-    setTimeout(function(){
-      redireccion();
-    }, 1000);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error al enviar fase 2");
+    });
 
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Error al enviar fase 2");
   });
 
 });
