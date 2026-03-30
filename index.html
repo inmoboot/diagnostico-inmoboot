@@ -68,7 +68,7 @@ h2{font-size:1.5rem;}
 <div class="form-box">
 
 <form id="diagnosticoForm"
-action="https://script.google.com/macros/s/AKfycbyc10-y1cLW0_ego4M2lzKn21vlmshvD_j4yjUdYhotTGhpCwXSCyc15GdjLQ6fAxt3-g/exec"
+action="https://script.google.com/macros/s/AKfycby3n-PrBRYSbtDgAwhpyosYNXPhTUInXgm7avmPMR5tG0jzafm9iooTjQS2Q1SfPPgidQ/exec"
 method="POST"
 target="hidden_iframe">
 
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function(){
   const form = document.getElementById('diagnosticoForm');
   const faseInput = document.getElementById('fase');
 
-  let leadId = null; // 🔥 IMPORTANTE
+  let leadId = null;
 
   // =============================
   // FASE 1
@@ -158,29 +158,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(nombre && email && inmobiliaria){
 
-      faseInput.value = "fase1"; // 🔥 CLAVE
+      faseInput.value = "fase1";
 
-      const formData = new FormData(form);
+      // 🔥 interceptamos respuesta del iframe
+      window.addEventListener("message", function(event){
+        try {
+          const data = JSON.parse(event.data);
 
-      fetch(form.action, {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
+          if(data.leadId){
+            leadId = data.leadId;
+          }
 
-        if(data.leadId){
-          leadId = data.leadId; // 🔥 guardamos
-        }
+          document.getElementById('fase1').style.display='none';
+          document.getElementById('fase2').style.display='block';
 
-        document.getElementById('fase1').style.display='none';
-        document.getElementById('fase2').style.display='block';
+        } catch(e){}
+      }, { once: true });
 
-      })
-      .catch(err => {
-        console.error(err);
-        alert("Error al enviar fase 1");
-      });
+      form.submit();
 
     } else {
       alert('Por favor, completa todos los campos.');
@@ -192,33 +187,34 @@ document.addEventListener("DOMContentLoaded", function(){
   // FASE 2
   // =============================
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', function(){
 
-    e.preventDefault();
-
-    faseInput.value = "fase2";
-
-    const formData = new FormData(form);
-
-    formData.append("leadId", leadId); // 🔥 CLAVE
-
-    fetch(form.action, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-
+    if(faseInput.value === "fase2"){
       setTimeout(function(){
         redireccion();
-      }, 1000);
+      }, 1500);
+    }
 
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error al enviar fase 2");
-    });
+  });
 
+  // 👉 antes de enviar fase2 añadimos leadId
+  form.addEventListener('submit', function(){
+
+    if(faseInput.value === "fase2" && leadId){
+      const inputLead = document.createElement("input");
+      inputLead.type = "hidden";
+      inputLead.name = "leadId";
+      inputLead.value = leadId;
+      form.appendChild(inputLead);
+    }
+
+  });
+
+  // 👉 cuando se pulsa el botón final
+  const btnFinal = document.querySelector('#fase2 button');
+
+  btnFinal.addEventListener('click', function(){
+    faseInput.value = "fase2";
   });
 
 });
