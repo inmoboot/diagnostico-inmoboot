@@ -1,228 +1,121 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html> 
+<html lang="es"> <head> <meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagnóstico Inmoboot</title>
-<style>
-:root{--primary:#0F2B46;--secondary:#1F4E79;--accent:#F4B400;--light:#F7F9FC;--dark:#0A1A2B;}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--light);color:var(--dark);line-height:1.6;}
-section{padding:80px 20px;}
-.container{max-width:1100px;margin:0 auto;}
-h1{font-size:2.5rem;margin-bottom:20px;}
-h2{font-size:1.8rem;margin-bottom:20px;}
-h3{margin-top:30px;margin-bottom:15px;}
-.hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;text-align:center;padding:120px 20px;}
-.hero p{font-size:1.2rem;}
-.cta-button{display:inline-block;margin-top:30px;padding:16px 40px;background:var(--accent);color:black;font-weight:600;text-decoration:none;border-radius:6px;}
-.block-light{background:white;}
-.block-dark{background:var(--primary);color:white;}
-ul{padding-left:20px;}
-li{margin-bottom:10px;}
-.form-box{background:white;padding:40px;border-radius:8px;box-shadow:0 15px 40px rgba(0,0,0,0.08);margin-top:30px;}
-input{width:100%;padding:12px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;font-size:16px;}
-button{width:100%;padding:15px;background:var(--accent);border:none;font-size:16px;font-weight:bold;border-radius:6px;cursor:pointer;}
-button:hover{opacity:0.9;}
-.badge{display:inline-block;background:rgba(244,180,0,0.15);color:var(--accent);padding:6px 14px;border-radius:20px;font-size:0.9rem;margin-bottom:20px;}
-.footer-note{text-align:center;font-size:0.9rem;opacity:0.7;margin-top:30px;}
-.micro-trust{font-size:0.85rem;text-align:center;margin-top:10px;opacity:0.7;}
-.sticky-cta{display:none;}
-@media(max-width:768px){
-h1{font-size:2rem;}
-h2{font-size:1.5rem;}
-.sticky-cta{display:block;position:fixed;bottom:0;left:0;right:0;background:white;box-shadow:0 -5px 20px rgba(0,0,0,0.1);padding:12px;text-align:center;}
-.sticky-cta a{background:var(--accent);padding:14px 25px;border-radius:6px;font-weight:bold;text-decoration:none;color:black;display:inline-block;}
-}
-</style>
-</head>
-<body>
-
-<section class="hero">
-<div class="container">
-<h1>Tu inmobiliaria genera leads. Pero, ¿cuántos se pierden antes de cerrar?</h1>
+<title>Diagnóstico Inmoboot</title> 
+<style> :root{--primary:#0F2B46;--secondary:#1F4E79;--accent:#F4B400;--light:#F7F9FC;--dark:#0A1A2B;} 
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--light);color:var(--dark);line-height:1.6;} 
+  section{padding:80px 20px;} .container{max-width:1100px;margin:0 auto;} 
+  h1{font-size:2.5rem;margin-bottom:20px;} h2{font-size:1.8rem;margin-bottom:20px;} 
+  h3{margin-top:30px;margin-bottom:15px;} .hero{background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;text-align:center;padding:120px 20px;} .hero p{font-size:1.2rem;} .cta-button{display:inline-block;
+  margin-top:30px;padding:16px 40px;background:var(--accent);color:black;font-weight:600;text-decoration:none;
+  border-radius:6px;} .block-light{background:white;} .block-dark{background:var(--primary);color:white;} 
+  ul{padding-left:20px;} li{margin-bottom:10px;} .form-box{background:white;padding:40px;
+  border-radius:8px;box-shadow:0 15px 40px rgba(0,0,0,0.08);margin-top:30px;}
+  input{width:100%;padding:12px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;font-size:16px;}
+  button{width:100%;padding:15px;background:var(--accent);border:none;font-size:16px;font-weight:bold;
+  border-radius:6px;cursor:pointer;} button:hover{opacity:0.9;} .badge{display:inline-block;background:rgba(244,180,0,0.15);
+  color:var(--accent);padding:6px 14px;border-radius:20px;font-size:0.9rem;margin-bottom:20px;} .footer-note{text-align:center;font-size:0.9rem;opacity:0.7;margin-top:30px;} .micro-trust{font-size:0.85rem;text-align:center;margin-top:10px;opacity:0.7;} .sticky-cta{display:none;} 
+  @media(max-width:768px){ h1{font-size:2rem;} h2{font-size:1.5rem;} .sticky-cta{display:block;position:fixed;bottom:0;left:0;right:0;background:white;box-shadow:0 -5px 20px rgba(0,0,0,0.1);padding:12px;text-align:center;} .sticky-cta a{background:var(--accent);
+  padding:14px 25px;border-radius:6px;font-weight:bold;text-decoration:none;color:black;display:inline-block;} } 
+</style> </head> <body> <section class="hero"> <div class="container"> 
+<h1>Tu inmobiliaria genera leads. Pero, ¿cuántos se pierden antes de cerrar?</h1> 
 <p>Descubre en 60 segundos cuántas oportunidades y cuánto dinero se están escapando cada mes por falta de seguimiento automatizado.</p>
-<p><strong>⏱ Solo 60 segundos. Sin tecnicismos.</strong></p>
-<p><strong>👉 Recibes tu informe personalizado al instante en tu email.</strong></p>
-<a href="#formulario" class="cta-button">Ver cuánto estoy perdiendo →</a>
-</div>
-</section>
-
-<section class="block-light">
-<div class="container">
-<h2>📉 El problema no es conseguir más leads. Es lo que pasa después.</h2>
-<ul>
-<li>Un lead entra hoy y el seguimiento llega tres días tarde — ya habló con otra agencia</li>
-<li>Tu equipo recuerda a los clientes "activos" pero olvida los que dijeron "quizás en unos meses"</li>
-<li>Cada agente lleva su propio sistema… o ninguno</li>
-<li>El tiempo que se va en seguimientos manuales no se invierte en cerrar ventas</li>
-</ul>
-<p><strong>Esto no es un problema de motivación. Es un problema de sistema. Y tiene un coste real.</strong></p>
-</div>
-</section>
-
-<section class="block-light" id="formulario">
-<div class="container">
-<div class="badge">Diagnóstico gratuito · Solo para inmobiliarias</div>
-<h2>Calcula ahora el coste real de no tener un sistema de seguimiento</h2>
-
-<div class="form-box">
-
-<form id="diagnosticoForm"
-action="https://script.google.com/macros/s/AKfycbwwGZiTWPgb3O0TJE6CBH-9dcmbQFOCQW50pbCqqFTyf0MJswuB7Ma94FYkV7pL_GjE_A/exec"
-method="POST"
-target="hidden_iframe">
-
-<input type="hidden" name="fase" id="fase">
-
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-
-<div id="fase1">
-<h3>📝 SECCIÓN 1 – Datos básicos</h3>
-<input type="text" name="nombre" placeholder="1️⃣ Nombre" required>
-<input type="email" name="email" placeholder="2️⃣ Email (aquí recibirás el informe)" required>
-<input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required>
-<button type="button" id="siguiente1">Siguiente · Ver mi diagnóstico ➡️</button>
-</div>
-
-<div id="fase2" style="display:none;">
-<h3>🧮 SECCIÓN 2 – Datos de tu negocio</h3>
-<input type="number" name="leads_mensuales" placeholder="4️⃣ Leads que recibes al mes" required>
-<input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos que haces por cada lead" required>
-<input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos que inviertes por seguimiento" required>
-<input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas cerradas al mes (aproximado)" required>
-<input type="number" name="comision_media" placeholder="8️⃣ Comisión media por venta (€)" required>
-<input type="text" name="website" style="display:none">
-<button type="submit">Calcular mi diagnóstico ahora 📊</button>
-</div>
-
-</form>
-
-<p class="micro-trust">🔒 Tus datos son confidenciales y solo se usan para generar tu informe. Sin spam, nunca.</p>
-
-</div>
-</div>
-</section>
-
-<section class="block-dark">
-<div class="container">
-<h2>📄 ¿Qué incluye tu informe personalizado?</h2>
-<ul>
-<li>✔ Horas reales que tu equipo pierde al mes en seguimiento manual</li>
-<li>✔ Coste operativo mensual de ese tiempo perdido</li>
-<li>✔ Ventas potenciales que se están escapando cada mes</li>
-<li>✔ Diagnóstico estratégico con recomendaciones concretas para tu inmobiliaria</li>
-</ul>
-</div>
-</section>
-
-<section class="block-light">
-<div class="container">
-<h2>⏳ Acceso limitado este mes</h2>
-<p>Para garantizar un diagnóstico de calidad, solo abrimos plazas para <strong>10 inmobiliarias al mes</strong>. Una vez cubiertas, cerramos el acceso hasta el siguiente ciclo.</p>
-<p>El <strong>80% de los leads inmobiliarios no compran en el primer contacto.</strong><br>
-Las inmobiliarias que sistematizan el seguimiento cierran hasta un 40% más de operaciones con los mismos leads.</p>
-<a href="#formulario" class="cta-button">Quiero saber cuánto estoy perdiendo →</a>
-<div class="footer-note">
-Inmoboot © 2026 | Automatización estratégica para inmobiliarias
-</div>
-</div>
-</section>
-
-<div class="sticky-cta">
-<a href="#formulario">Ver mi diagnóstico gratis 🚀</a>
-</div>
-
-<script>
-
-function redireccion(){
-  window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-  const btnSiguiente = document.getElementById('siguiente1');
-  const form = document.getElementById('diagnosticoForm');
-  const faseInput = document.getElementById('fase');
-
-  let leadId = null;
-
-  // =============================
-  // FASE 1
-  // =============================
-
-  btnSiguiente.addEventListener('click', function(){
-
-    const nombre = document.querySelector('input[name="nombre"]').value.trim();
-    const email = document.querySelector('input[name="email"]').value.trim();
-    const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
-
-    if(nombre && email && inmobiliaria){
-
-      faseInput.value = "fase1";
-
-      // 🔥 interceptamos respuesta del iframe
-      window.addEventListener("message", function(event){
-        try {
-          const data = JSON.parse(event.data);
-
-          if(data.leadId){
-            leadId = data.leadId;
-          }
-
-          document.getElementById('fase1').style.display='none';
-          document.getElementById('fase2').style.display='block';
-
-        } catch(e){}
-      }, { once: true });
-
-      form.submit();
-
-    } else {
-      alert('Por favor, completa todos los campos.');
-    }
-
-  });
-
-  // =============================
-  // FASE 2
-  // =============================
-
-  form.addEventListener('submit', function(){
-
-    if(faseInput.value === "fase2"){
-      setTimeout(function(){
-        redireccion();
-      }, 1500);
-    }
-
-  });
-
-  // 👉 antes de enviar fase2 añadimos leadId
-  form.addEventListener('submit', function(){
-
-    if(faseInput.value === "fase2" && leadId){
-      const inputLead = document.createElement("input");
-      inputLead.type = "hidden";
-      inputLead.name = "leadId";
-      inputLead.value = leadId;
-      form.appendChild(inputLead);
-    }
-
-  });
-
-  // 👉 cuando se pulsa el botón final
-  const btnFinal = document.querySelector('#fase2 button');
-
-  btnFinal.addEventListener('click', function(){
-    faseInput.value = "fase2";
-  });
-
-});
-</script>
-
-</body>
+<p><strong>⏱ Solo 60 segundos. Sin tecnicismos.</strong></p> 
+<p><strong>👉 Recibes tu informe personalizado al instante en tu email.</strong></p> 
+<a href="#formulario" class="cta-button">Ver cuánto estoy perdiendo →</a> </div> 
+</section> <section class="block-light">
+<div class="container"> <h2>📉 El problema no es conseguir más leads. Es lo que pasa después.</h2> 
+  <ul> <li>Un lead entra hoy y el seguimiento llega tres días tarde — ya habló con otra agencia</li> 
+  <li>Tu equipo recuerda a los clientes "activos" pero olvida los que dijeron "quizás en unos meses"</li> 
+  <li>Cada agente lleva su propio sistema… o ninguno</li> <li>El tiempo que se va en seguimientos manuales no se invierte en cerrar ventas</li> 
+  </ul> 
+  <p><strong>Esto no es un problema de motivación. Es un problema de sistema. Y tiene un coste real.</strong></p> 
+</div> </section> <section class="block-light" id="formulario"> 
+  <div class="container"> 
+<div class="badge">Diagnóstico gratuito · Solo para inmobiliarias</div> 
+<h2>Calcula ahora el coste real de no tener un sistema de seguimiento</h2> 
+<div class="form-box"> 
+<form id="diagnosticoForm" 
+  action="https://script.google.com/macros/s/AKfycbxJ5BSabdJDys6lw1r4olYm1zi437WhH11PwQu7ZDnSD5DVN4KJozb888SUa7Pe-9BXyA/exec" 
+  method="POST" 
+  target="hidden_iframe"> 
+<input type="hidden" name="fase" id="fase"> 
+<iframe name="hidden_iframe" style="display:none;">
+  
+</iframe> <div id="fase1"> <h3>📝 SECCIÓN 1 – Datos básicos</h3>
+  <input type="text" name="nombre" placeholder="1️⃣ Nombre" required> 
+  <input type="email" name="email" placeholder="2️⃣ Email (aquí recibirás el informe)" required> 
+  <input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required> 
+  <button type="button" id="siguiente1">Siguiente · Ver mi diagnóstico ➡️</button> 
+</div> <div id="fase2" style="display:none;"> <h3>🧮 SECCIÓN 2 – Datos de tu negocio</h3> 
+  <input type="number" name="leads_mensuales" placeholder="4️⃣ Leads que recibes al mes" required> 
+  <input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos que haces por cada lead" required> 
+  <input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos que inviertes por seguimiento" required> 
+  <input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas cerradas al mes (aproximado)" required> 
+  <input type="number" name="comision_media" placeholder="8️⃣ Comisión media por venta (€)" required> 
+  <input type="text" name="website" style="display:none"> <button type="submit">Calcular mi diagnóstico ahora 📊</button> 
+</div> </form> <p class="micro-trust">🔒 Tus datos son confidenciales y solo se usan para generar tu informe. Sin spam, nunca.</p> </div> 
+  </div> 
+</section> <section class="block-dark"> <div class="container"> 
+  <h2>📄 ¿Qué incluye tu informe personalizado?</h2> 
+  <ul> <li>✔ Horas reales que tu equipo pierde al mes en seguimiento manual</li> 
+    <li>✔ Coste operativo mensual de ese tiempo perdido</li> 
+    <li>✔ Ventas potenciales que se están escapando cada mes</li> 
+    <li>✔ Diagnóstico estratégico con recomendaciones concretas para tu inmobiliaria</li>
+  </ul> </div> 
+</section> 
+  <section class="block-light"> <div class="container"> 
+    <h2>⏳ Acceso limitado este mes</h2> 
+    <p>Para garantizar un diagnóstico de calidad, solo abrimos plazas para <strong>10 inmobiliarias al mes</strong>. Una vez cubiertas, cerramos el acceso hasta el siguiente ciclo.</p> 
+    <p>El <strong>80% de los leads inmobiliarios no compran en el primer contacto.</strong><br> Las inmobiliarias que sistematizan el seguimiento cierran hasta un 40% más de operaciones con los mismos leads.</p> 
+    <a href="#formulario" class="cta-button">Quiero saber cuánto estoy perdiendo →</a> 
+    <div class="footer-note"> Inmoboot © 2026 | Automatización estratégica para inmobiliarias </div> 
+  </div> 
+  </section> 
+  <div class="sticky-cta"> 
+    <a href="#formulario">Ver mi diagnóstico gratis 🚀</a> </div> 
+  
+  <script> function redireccion(){ window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html"; } 
+    document.addEventListener("DOMContentLoaded", function(){ const btnSiguiente = document.getElementById('siguiente1'); const form = document.getElementById('diagnosticoForm'); const faseInput = document.getElementById('fase'); let leadId = null; 
+  // ============================= // FASE 1 // ============================= 
+  btnSiguiente.addEventListener('click', function(){ const nombre = document.querySelector('input[name="nombre"]').value.trim(); const email = document.querySelector('input[name="email"]').value.trim(); const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim(); 
+if(nombre && email && inmobiliaria){ 
+ faseInput.value = "fase1"; 
+// 🔥 interceptamos respuesta del iframe 
+window.addEventListener("message", function(event){ 
+ try { 
+ const data = JSON.parse(event.data); 
+   if(data.leadId){ 
+     leadId = data.leadId;
+   } 
+document.getElementById('fase1').style.display='none'; 
+document.getElementById('fase2').style.display='block';
+ } 
+catch(e){} 
+}, { once: true }); form.submit();
+  document.getElementById('fase1').style.display='none';
+document.getElementById('fase2').style.display='block';
+} 
+ else { alert('Por favor, completa todos los campos.');
+      }
+                                                   }); 
+  // ============================= // FASE 2 // ============================= 
+form.addEventListener('submit', function(){ if(faseInput.value === "fase2"){ 
+ setTimeout(function(){ redireccion(); 
+                      }, 1500); } 
+                                          }); 
+// 👉 antes de enviar fase2 añadimos leadId 
+form.addEventListener('submit', function(){ 
+ if(faseInput.value === "fase2"){ } });
+ // 👉 cuando se pulsa el botón final 
+const btnFinal = document.querySelector('#fase2 button'); 
+btnFinal.addEventListener('click', function(){ 
+faseInput.value = "fase2"; }); }); 
+  </script> 
+</body> 
 </html>
-
 
 
 
