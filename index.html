@@ -80,27 +80,26 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   <script> function redireccion(){ window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html"; } 
     document.addEventListener("DOMContentLoaded", function(){ const btnSiguiente = document.getElementById('siguiente1'); const form = document.getElementById('diagnosticoForm'); const faseInput = document.getElementById('fase'); let leadId = null; 
   // ============================= // FASE 1 // ============================= 
-  btnSiguiente.addEventListener('click', function(){ const nombre = document.querySelector('input[name="nombre"]').value.trim(); const email = document.querySelector('input[name="email"]').value.trim(); const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim(); 
-if(nombre && email && inmobiliaria){ 
- faseInput.value = "fase1"; 
-// 🔥 interceptamos respuesta del iframe 
-window.addEventListener("message", function(event){ 
- try { 
- const data = JSON.parse(event.data); 
-   if(data.leadId){ 
-     leadId = data.leadId;
-   } 
-document.getElementById('fase1').style.display='none'; 
-document.getElementById('fase2').style.display='block';
- } 
-catch(e){} 
-}, { once: true }); form.submit();
-  document.getElementById('fase1').style.display='none';
-document.getElementById('fase2').style.display='block';
-} 
- else { alert('Por favor, completa todos los campos.');
-      }
-                                                   }); 
+  btnSiguiente.addEventListener('click', function(){
+
+  const nombre = document.querySelector('input[name="nombre"]').value.trim();
+  const email = document.querySelector('input[name="email"]').value.trim();
+  const inmobiliaria = document.querySelector('input[name="inmobiliaria"]').value.trim();
+
+  if(nombre && email && inmobiliaria){
+
+    faseInput.value = "fase1";
+
+    form.submit(); // ✅ ENVÍA A APPS SCRIPT
+
+    document.getElementById('fase1').style.display='none';
+    document.getElementById('fase2').style.display='block';
+
+  } else {
+    alert('Por favor, completa todos los campos.');
+  }
+
+}); 
   // ============================= // FASE 2 // ============================= 
 form.addEventListener('submit', function(){ if(faseInput.value === "fase2"){ 
  setTimeout(function(){ redireccion(); 
@@ -111,8 +110,16 @@ form.addEventListener('submit', function(){
  if(faseInput.value === "fase2"){ } });
  // 👉 cuando se pulsa el botón final 
 const btnFinal = document.querySelector('#fase2 button'); 
-btnFinal.addEventListener('click', function(){ 
-faseInput.value = "fase2"; }); }); 
+btnFinal.addEventListener('click', function(e){
+
+  e.preventDefault(); // evitamos conflictos
+
+  faseInput.value = "fase2";
+
+  document.getElementById('diagnosticoForm').submit();
+
+});
+    }); 
   </script> 
 </body> 
 </html>
