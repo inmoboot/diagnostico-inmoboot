@@ -38,7 +38,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 <h2>Calcula ahora el coste real de no tener un sistema de seguimiento</h2> 
 <div class="form-box"> 
 <form id="diagnosticoForm" 
-  action="https://script.google.com/macros/s/AKfycbxJ5BSabdJDys6lw1r4olYm1zi437WhH11PwQu7ZDnSD5DVN4KJozb888SUa7Pe-9BXyA/exec" 
+  action="https://script.google.com/macros/s/AKfycbx2PAtBDuLf2S3t0E6UdPGPThOC-Dk3MdRYwOubNqemLMDKn72XH4mVu-rLFFmVyniW3A/exec" 
   method="POST" 
   target="hidden_iframe"> 
 <input type="hidden" name="fase" id="fase"> 
@@ -110,13 +110,9 @@ form.addEventListener('submit', function(){
  if(faseInput.value === "fase2"){ } });
  // 👉 cuando se pulsa el botón final 
 const btnFinal = document.querySelector('#fase2 button'); 
-btnFinal.addEventListener('click', function(e){
-
-  e.preventDefault(); // evitamos conflictos
+btnFinal.addEventListener('click', function(){
 
   faseInput.value = "fase2";
-
-  document.getElementById('diagnosticoForm').submit();
 
 });
     }); 
