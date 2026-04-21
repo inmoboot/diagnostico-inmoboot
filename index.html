@@ -39,10 +39,8 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 <div class="form-box"> 
 <form id="diagnosticoForm" 
   action="https://script.google.com/macros/s/AKfycbyOBok0naC75iWz9dwNdkHa2ih8kKP_GmfkwekFstZUReWxVik3kWmn07DFXhb9qQiyeQ/exec" 
-  method="POST" 
-  target="hidden_iframe"> 
+  method="POST"> 
 <input type="hidden" name="fase" id="fase"> 
-<iframe name="hidden_iframe" style="display:none;">
   
 </iframe> <div id="fase1"> <h3>📝 SECCIÓN 1 – Datos básicos</h3>
   <input type="text" name="nombre" placeholder="1️⃣ Nombre" required> 
@@ -90,7 +88,10 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 
     faseInput.value = "fase1";
 
-    form.submit(); // ✅ ENVÍA A APPS SCRIPT
+   fetch(form.action, {
+  method: "POST",
+  body: new FormData(form)
+}).catch(() => {}); // ✅ ENVÍA A APPS SCRIPT
 
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
