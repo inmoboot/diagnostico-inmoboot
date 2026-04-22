@@ -38,8 +38,11 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 <h2>Calcula ahora el coste real de no tener un sistema de seguimiento</h2> 
 <div class="form-box"> 
 <form id="diagnosticoForm" 
-  action="https://script.google.com/macros/s/AKfycbyOBok0naC75iWz9dwNdkHa2ih8kKP_GmfkwekFstZUReWxVik3kWmn07DFXhb9qQiyeQ/exec" 
-  method="POST"> 
+  action="https://script.google.com/macros/s/AKfycbyn5ELgVDqe-EV-4XfnZIJITmEdptRC5dLpnqf0Xlo005A1modRv7jIsecDLIaXSfTTAg/exec" 
+  method="POST"
+  target="hidden_iframe"> 
+  
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 <input type="hidden" name="fase" id="fase"> 
   
 </iframe> <div id="fase1"> <h3>📝 SECCIÓN 1 – Datos básicos</h3>
@@ -78,7 +81,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   <script> function redireccion(){ window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html"; } 
     document.addEventListener("DOMContentLoaded", function(){ const btnSiguiente = document.getElementById('siguiente1'); const form = document.getElementById('diagnosticoForm'); const faseInput = document.getElementById('fase'); let leadId = null; 
   // ============================= // FASE 1 // ============================= 
-  btnSiguiente.addEventListener('click', function(){
+ btnSiguiente.addEventListener('click', function(){
 
   const nombre = document.querySelector('input[name="nombre"]').value.trim();
   const email = document.querySelector('input[name="email"]').value.trim();
@@ -88,11 +91,9 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 
     faseInput.value = "fase1";
 
-   fetch(form.action, {
-  method: "POST",
-  body: new FormData(form)
-}).catch(() => {}); // ✅ ENVÍA A APPS SCRIPT
+    form.submit(); // 🔥 envío real sin CORS
 
+    // 🔥 CAMBIO DE FASE SIN ESPERAR BACKEND
     document.getElementById('fase1').style.display='none';
     document.getElementById('fase2').style.display='block';
 
