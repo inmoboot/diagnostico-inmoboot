@@ -85,7 +85,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   <div class="sticky-cta"> 
     <a href="#formulario">Ver mi diagnóstico gratis 🚀</a> </div> 
   
-  <script> function redireccion(){ window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html"; } 
+  <script>  
     document.addEventListener("DOMContentLoaded", function(){ 
       const btnSiguiente = document.getElementById('siguiente1'); 
       const form = document.getElementById('diagnosticoForm'); 
@@ -131,11 +131,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 
       if(btn && btn.id === "fase2"){
         faseInput.value = "fase2";
+         setTimeout(function(){
+        window.location.href = "https://inmoboot.github.io/diagnostico-inmoboot/gracias.html";
+      }, 1500);
       }
 
-    }
-
-}); 
+}}); 
        });
       </script> 
 </body> 
