@@ -42,6 +42,9 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   method="POST"
   target="hidden_iframe"> 
   
+  <input type="hidden" name="fase" id="fase">
+  <input type="hidden" name="leadId" id="leadId">
+  
 <iframe name="hidden_iframe" style="display:none;"></iframe>
   
 </iframe> <div id="fase1"> <h3>📝 SECCIÓN 1 – Datos básicos</h3>
@@ -49,6 +52,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   <input type="email" name="email" placeholder="2️⃣ Email (aquí recibirás el informe)" required> 
   <input type="text" name="inmobiliaria" placeholder="3️⃣ Nombre de la inmobiliaria" required> 
   <button type="button" id="siguiente1">Siguiente · Ver mi diagnóstico ➡️</button> 
+  
 </div> <div id="fase2" style="display:none;"> <h3>🧮 SECCIÓN 2 – Datos de tu negocio</h3> 
   <input type="number" name="leads_mensuales" placeholder="4️⃣ Leads que recibes al mes" required> 
   <input type="number" name="seguimientos_por_lead" placeholder="5️⃣ Seguimientos que haces por cada lead" required> 
@@ -82,7 +86,16 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
     <a href="#formulario">Ver mi diagnóstico gratis 🚀</a> </div> 
   
   <script> function redireccion(){ window.location.href="https://inmoboot.github.io/diagnostico-inmoboot/gracias.html"; } 
-    document.addEventListener("DOMContentLoaded", function(){ const btnSiguiente = document.getElementById('siguiente1'); const form = document.getElementById('diagnosticoForm'); const faseInput = document.getElementById('fase'); let leadId = null; 
+    document.addEventListener("DOMContentLoaded", function(){ 
+      const btnSiguiente = document.getElementById('siguiente1'); 
+      const form = document.getElementById('diagnosticoForm'); 
+      const faseInput = document.getElementById('fase');
+       const leadIdInput = document.getElementById('leadId');
+
+  const fase1 = document.getElementById('fase1');
+  const fase2 = document.getElementById('fase2');
+      
+  
   // ============================= // FASE 1 // ============================= 
  btnSiguiente.addEventListener('click', function(){
 
@@ -103,6 +116,24 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   } else {
     alert('Por favor, completa todos los campos.');
   }
+
+   // =============================
+  // FASE 2
+  // =============================
+
+  form.addEventListener('submit', function(){
+
+    // 👉 solo cuando es fase 2
+    if(faseInput.value !== "fase2"){
+
+      // cuando pulsan botón final
+      const btn = document.activeElement;
+
+      if(btn && btn.id === "fase2"){
+        faseInput.value = "fase2";
+      }
+
+    }
 
 }); 
                                                              
