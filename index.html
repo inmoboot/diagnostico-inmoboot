@@ -38,7 +38,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
 <h2>Calcula ahora el coste real de no tener un sistema de seguimiento</h2> 
 <div class="form-box"> 
 <form id="diagnosticoForm" 
-  action="https://script.google.com/macros/s/AKfycbw1JIrTREnQdyWl7DA5sUEZwuGcWBxcDjgbIPCsC4dBcwjI9rQWTgOheHtLt7XqcmeqUQ/exec" 
+  action="https://script.google.com/macros/s/AKfycbwopScnGiQOfJZBOZqj9nb-6R9dKlR9fZLOQvQnmKIJKMEp6wCrUI-ZTCDYveX9H2cP/exec" 
   method="POST"
   target="hidden_iframe"> 
   
@@ -56,7 +56,12 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,san
   <input type="number" name="minutos_por_seguimiento" placeholder="6️⃣ Minutos que inviertes por seguimiento" required> 
   <input type="number" name="ventas_mensuales" placeholder="7️⃣ Ventas cerradas al mes (aproximado)" required> 
   <input type="number" name="comision_media" placeholder="8️⃣ Comisión media por venta (€)" required> 
-  <input type="text" name="website" style="display:none"> <button type="submit">Calcular mi diagnóstico ahora 📊</button> 
+  <input type="text" name="website" style="display:none"> 
+  <button 
+  type="submit" 
+  onclick="document.getElementById('fase').value='fase2'">
+  Calcular mi diagnóstico ahora 📊
+</button> 
 </div> </form> <p class="micro-trust">🔒 Tus datos son confidenciales y solo se usan para generar tu informe. Sin spam, nunca.</p> </div> 
   </div> 
 </section> <section class="block-dark"> <div class="container"> 
@@ -107,12 +112,14 @@ form.addEventListener('submit', function(){ if(faseInput.value === "fase2"){
  setTimeout(function(){ redireccion(); 
                       }, 1500); } 
                                           }); 
+                                                             
 // 👉 antes de enviar fase2 añadimos leadId 
 form.addEventListener('submit', function(){ 
  if(faseInput.value === "fase2"){ } });
+                                                             
  // 👉 cuando se pulsa el botón final 
 const btnFinal = document.querySelector('#fase2 button'); 
-btnFinal.addEventListener('click', function(){
+btnFinal.addEventListener('click', function(e){
 
   faseInput.value = "fase2";
 
