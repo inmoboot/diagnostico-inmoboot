@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inmoboot — Automatización para inmobiliarias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy: #0d1b2e;
+    --navy-mid: #142338;
+    --navy-light: #1e3250;
+    --green: #00c853;
+    --green-dim: #00a844;
+    --green-glow: rgba(0, 200, 83, 0.15);
+    --white: #ffffff;
+    --grey: #8a9bb0;
+    --grey-light: #b8c8d9;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h1, h2, h3, h4 {
+    font-family: 'Syne', sans-serif;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 20px;
+  }
+
+  .tag::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  section { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s;
+  }
+
+  nav.scrolled {
+    background: rgba(13, 27, 46, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom-color: var(--border);
+  }
+
+  nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--green); }
+
+  nav a.cta-nav {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--green);
+    padding: 10px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  nav a.cta-nav:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 140px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,200,83,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .dot-live {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(0,200,83,0.4); }
+    50% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0,200,83,0); }
+  }
+
+  .hero-eyebrow span {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 5vw, 64px);
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: var(--white);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-sub strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green);
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-cta:hover {
+    background: #00e060;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0,200,83,0.25);
+  }
+
+  .hero-cta svg { transition: transform 0.2s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  /* Hero right — card panel */
+  .hero-panel {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+  }
+
+  .hero-panel::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(0,200,83,0.2) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .panel-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .stat-box {
+    background: var(--navy-light);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .stat-box .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .label {
+    font-size: 12px;
+    color: var(--grey);
+    line-height: 1.4;
+  }
+
+  .panel-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  .process-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .process-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--grey-light);
+  }
+
+  .process-list li .step-num {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background: var(--green-glow);
+    border: 1px solid rgba(0,200,83,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green);
+    margin-top: 1px;
+  }
+
+  /* ── IONE SECTION ── */
+  .ione-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .ione-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .ione-left {
+    position: sticky;
+    top: 120px;
+  }
+
+  .ione-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.03em;
+  }
+
+  .ione-title {
+    font-size: 14px;
+    color: var(--green);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+
+  .ione-avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--navy-light);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ione-avatar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(0,200,83,0.1) 0%, transparent 50%);
+  }
+
+  .avatar-placeholder {
+    font-family: 'Syne', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    letter-spacing: -0.05em;
+  }
+
+  .ione-right blockquote {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 2.5vw, 30px);
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--white);
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+
+  .ione-right blockquote em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .ione-body {
+    color: var(--grey-light);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ione-body p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .ione-body .highlight-line {
+    border-left: 2px solid var(--green);
+    padding-left: 20px;
+    color: var(--grey-light);
+    font-style: italic;
+  }
+
+  /* ── WHAT I DO ── */
+  .what-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-header {
+    max-width: 600px;
+    margin-bottom: 64px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .section-header p {
+    color: var(--grey-light);
+    font-size: 17px;
+    font-weight: 300;
+  }
+
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .auto-card {
+    background: var(--navy-mid);
+    padding: 36px 32px;
+    transition: background 0.3s;
+    position: relative;
+  }
+
+  .auto-card:hover { background: var(--navy-light); }
+
+  .auto-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--green-glow);
+    border: 1px solid rgba(0,200,83,0.25);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .auto-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .auto-card p {
+    font-size: 14px;
+    color: var(--grey);
+    line-height: 1.6;
+  }
+
+  /* ── SERIES TEASER ── */
+  .series-section {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .series-section::before {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,200,83,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .series-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .series-inner h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+
+  .series-inner h2 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .series-inner p {
+    color: var(--grey-light);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .chapter-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .chapter-item:hover {
+    border-color: rgba(0,200,83,0.3);
+    background: var(--navy-light);
+  }
+
+  .ch-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    width: 36px;
+  }
+
+  .ch-title {
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .ch-badge {
+    margin-left: auto;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .ch-badge.coming {
+    background: rgba(255,255,255,0.05);
+    color: var(--grey);
+  }
+
+  .ch-badge.live {
+    background: rgba(0,200,83,0.15);
+    color: var(--green);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    padding: 120px 0 160px;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-left h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+
+  .contact-left h2 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .contact-left p {
+    color: var(--grey-light);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .for-whom {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .for-whom li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--grey-light);
+  }
+
+  .for-whom li::before {
+    content: '→';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── FORM ── */
+  .form-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 44px;
+    position: relative;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,200,83,0.5), transparent);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .form-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .form-subtitle {
+    font-size: 14px;
+    color: var(--grey);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(0,200,83,0.5);
+    box-shadow: 0 0 0 3px rgba(0,200,83,0.08);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: rgba(255,255,255,0.2);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .form-group select option {
+    background: var(--navy-mid);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-submit {
+    width: 100%;
+    background: var(--green);
+    color: var(--navy);
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .form-submit:hover {
+    background: #00e060;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,200,83,0.3);
+  }
+
+  .form-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 16px;
+  }
+
+  /* ── SUCCESS STATE ── */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--green-glow);
+    border: 1px solid rgba(0,200,83,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+
+  .form-success h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .form-success p {
+    color: var(--grey-light);
+    font-size: 15px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer .logo { font-size: 17px; }
+
+  footer p {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  footer a {
+    color: var(--grey);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--green); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-grid,
+    .ione-grid,
+    .series-inner,
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+
+    .auto-grid { grid-template-columns: 1fr; }
+
+    .ione-left { position: static; }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    footer .container { flex-direction: column; gap: 12px; text-align: center; }
+
+    .hero { padding: 120px 0 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="logo">Inmo<span>boot</span></a>
+    <a href="#contacto" class="cta-nav">Trabajemos juntos</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left fade-up">
+        <div class="hero-eyebrow">
+          <div class="dot-live"></div>
+          <span>Automatización inmobiliaria</span>
+        </div>
+        <h1>Tu inmobiliaria,<br>trabajando <em>sola</em>.</h1>
+        <p class="hero-sub">
+          Construyo sistemas automáticos para inmobiliarias y gestores de alquiler vacacional.<br>
+          <strong>Sin que necesites saber de tecnología.</strong>
+          Sin contratar a nadie más.
+        </p>
+        <a href="#contacto" class="hero-cta">
+          Hablemos de tu negocio
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="hero-panel fade-up">
+        <div class="panel-label">Por qué automatizar</div>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="num">78%</div>
+            <div class="label">de clientes elige la agencia más rápida, no la mejor</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">80%</div>
+            <div class="label">de los leads no compra en el primer contacto sin seguimiento</div>
+          </div>
+        </div>
+        <div class="panel-divider"></div>
+        <ul class="process-list">
+          <li>
+            <span class="step-num">1</span>
+            <span>Analizamos tus procesos actuales</span>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <span>Identificamos qué automatizar primero</span>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <span>Construimos e implementamos el sistema</span>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <span>Tú lo usas desde el primer día</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IONE -->
+<section class="ione-section">
+  <div class="container">
+    <div class="ione-grid">
+      <div class="ione-left fade-up">
+        <div class="tag">Quién está detrás</div>
+        <div class="ione-name">Ione</div>
+        <div class="ione-title">Fundadora de Inmoboot</div>
+        <div class="ione-avatar">
+          <div class="avatar-placeholder">I</div>
+        </div>
+      </div>
+
+      <div class="ione-right fade-up">
+        <blockquote>
+          "Llevo años rodeada del sector inmobiliario. Y nunca he podido entender por qué siguen haciendo a mano <em>lo que puede hacerse solo.</em>"
+        </blockquote>
+        <div class="ione-body">
+          <p>
+            Facturas que se rellenan una por una. Seguimientos que dependen de que alguien se acuerde. Procesos que se repiten cada día, sin cambiar nunca.
+          </p>
+          <p>
+            No lo digo como crítica. Lo digo porque lo he visto de cerca, <strong>viviendo en una zona turística</strong>, hablando con personas del sector durante años.
+          </p>
+          <p class="highlight-line">
+            En un momento decidí que podía construir algo útil. No cursos. No consejos. Sistemas que funcionan solos y devuelven tiempo real.
+          </p>
+          <p>
+            A eso le llamé <strong>Inmoboot</strong>.
+          </p>
+          <p>
+            En la serie <em>"Inmoboot: Por dentro"</em> enseño cada automatización que construyo: cómo funciona, por qué la creé, y qué cambia para quien la usa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section class="what-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Qué automatizo</div>
+      <h2>Sistemas reales para problemas reales</h2>
+      <p>No vendo software genérico. Construyo automatizaciones específicas para tu operativa.</p>
+    </div>
+
+    <div class="auto-grid">
+      <div class="auto-card fade-up">
+        <div class="auto-icon">⚡</div>
+        <h3>Respuesta automática de leads</h3>
+        <p>El lead llega y recibe respuesta en menos de 2 minutos. Sin que nadie esté delante. Cualquier hora.</p>
+      </div>
+      <div class="auto-card fade-up">
+        <div class="auto-icon">🔄</div>
+        <h3>Seguimiento sin intervención</h3>
+        <p>Secuencias automáticas en los días 1, 3 y 7. El lead no se pierde aunque tu equipo no se acuerde.</p>
+      </div>
+      <div class="auto-card fade-up">
+        <div class="auto-icon">📋</div>
+        <h3>Cualificación de prospectos</h3>
+        <p>El sistema pregunta, recoge y registra. Tu agente llega por la mañana con el lead ya trabajado.</p>
+      </div>
+      <div class="auto-card fade-up">
+        <div class="auto-icon">📊</div>
+        <h3>Reporting automático</h3>
+        <p>Sin Excel manual. Sin perder tiempo recopilando datos. El informe se genera solo.</p>
+      </div>
+      <div class="auto-card fade-up">
+        <div class="auto-icon">🏠</div>
+        <h3>Gestión de alquiler vacacional</h3>
+        <p>Check-ins, comunicaciones, recordatorios y documentación. Automatizados desde el primer contacto.</p>
+      </div>
+      <div class="auto-card fade-up">
+        <div class="auto-icon">⚙️</div>
+        <h3>Procesos a medida</h3>
+        <p>¿Tienes un proceso repetitivo que consume tiempo? Lo analizamos y construimos la automatización exacta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERIES -->
+<section class="series-section">
+  <div class="container">
+    <div class="series-inner">
+      <div class="fade-up">
+        <div class="tag">La serie</div>
+        <h2>Inmoboot:<br><em>Por dentro</em></h2>
+        <p>
+          Cada semana enseño una automatización real: cómo funciona, por qué la construí y qué cambia para quien la usa. Sin filtros. Desde dentro.
+        </p>
+        <a href="https://www.instagram.com/inmoboot" target="_blank" class="hero-cta" style="font-size:14px; padding:13px 26px;">
+          Seguir la serie en Instagram
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="chapter-list fade-up">
+        <li class="chapter-item">
+          <span class="ch-num">CAP 00</span>
+          <span class="ch-title">El origen de Inmoboot</span>
+          <span class="ch-badge live">Próximamente</span>
+        </li>
+        <li class="chapter-item">
+          <span class="ch-num">CAP 01</span>
+          <span class="ch-title">La facturas automáticas</span>
+          <span class="ch-badge coming">En camino</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contacto">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left fade-up">
+        <div class="tag">Trabajemos juntos</div>
+        <h2>¿Tu negocio<br>está listo para <em>automatizar</em>?</h2>
+        <p>
+          Cuéntame cómo funciona tu operativa ahora mismo. Analizamos juntos qué tiene más sentido automatizar primero y cómo hacerlo.
+        </p>
+        <ul class="for-whom">
+          <li>Agencias inmobiliarias</li>
+          <li>Gestores de alquiler vacacional</li>
+          <li>Equipos de captación y ventas</li>
+          <li>Directores que quieren escalar sin contratar</li>
+        </ul>
+      </div>
+
+      <div class="form-card fade-up">
+        <div id="form-content">
+          <div class="form-title">Cuéntame sobre tu negocio</div>
+          <div class="form-subtitle">Respondo en menos de 24 horas</div>
+
+          <form id="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" placeholder="Tu nombre" required>
+              </div>
+              <div class="form-group">
+                <label>Empresa</label>
+                <input type="text" placeholder="Nombre de la agencia">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="tu@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label>Tipo de negocio</label>
+              <select required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option>Agencia inmobiliaria</option>
+                <option>Alquiler vacacional</option>
+                <option>Gestión de propiedades</option>
+                <option>Otro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>¿Qué proceso te quita más tiempo ahora mismo?</label>
+              <textarea placeholder="Ej: responder leads, gestionar reservas, hacer seguimiento de clientes..."></textarea>
+            </div>
+
+            <button type="submit" class="form-submit">
+              Enviar mensaje
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <p class="form-note">Sin spam. Sin ventas agresivas. Solo una conversación.</p>
+          </form>
+        </div>
+
+        <div class="form-success" id="form-success">
+          <div class="success-icon">✓</div>
+          <h3>Mensaje recibido</h3>
+          <p>Gracias por escribir. Te respondo en menos de 24 horas para hablar sobre tu negocio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <a href="#" class="logo">Inmo<span>boot</span></a>
+    <p>© 2025 Inmoboot · <a href="mailto:hola@inmoboot.es">hola@inmoboot.es</a></p>
+    <a href="https://www.instagram.com/inmoboot" target="_blank">@inmoboot</a>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Form submit
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('form-content').style.display = 'none';
+    const success = document.getElementById('form-success');
+    success.style.display = 'block';
+    success.style.opacity = '0';
+    setTimeout(() => {
+      success.style.transition = 'opacity 0.5s';
+      success.style.opacity = '1';
+    }, 50);
+  });
+</script>
+</body>
+</html>
